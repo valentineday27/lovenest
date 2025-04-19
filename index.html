@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Valentine's Day Subi's Website</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f76363;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    .intro-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #f76363;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      flex-direction: column;
+      font-size: 2rem;
+      color: white;
+      transition: opacity 1s ease;
+    }
+
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    section {
+      padding: 3rem 0;
+      border-bottom: 2px dashed #ffd1d1;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .header h1 {
+      font-size: 1rem;
+      color: white;
+      margin-bottom: 0.2rem;
+    }
+
+    .header p {
+      font-size: 1.25rem;
+      color: white;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      padding: 0;
+    }
+
+    nav ul li {
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+    }
+
+    nav ul li:hover {
+      background-color: #f76363;
+      color: white;
+    }
+
+    .main-content {
+      text-align: center;
+    }
+
+    .main-content h2 {
+      font-size: 3rem;
+      margin: 0.5rem 0;
+      color: #f76363;
+    }
+
+    .main-content p {
+      max-width: 600px;
+      margin: 0.5rem auto;
+      color: #666;
+    }
+
+    .address {
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+
+    .cta-button {
+      background-color: #f76363;
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px #d94a4a;
+    }
+
+    .cta-button:hover {
+      background-color: #e55252;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 2rem;
+      font-weight: bold;
+      color: #f76363;
+    }
+
+    .footer small {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #f76363;
+    }
+
+    .scroller-section {
+      text-align: center;
+    }
+
+    .scroller-section h2 {
+      font-size: 2rem;
+      color: #f76363;
+      margin-bottom: 1rem;
+    }
+
+    .carousel {
+      position: relative;
+      width: 50%;
+      height: 400px;
+      margin: auto;
+      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .carousel img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .carousel img.active {
+      opacity: 1;
+    }
+
+    .carousel-controls {
+      margin-top: 1rem;
+    }
+
+    .carousel-controls button {
+      background-color: #f76363;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-weight: bold;
+      margin: 0 0.5rem;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .game-section {
+      text-align: center;
+    }
+
+    .game-section h2 {
+      font-size: 2rem;
+      color: #f76363;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-gap: 10px;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .cell {
+      width: 100px;
+      height: 100px;
+      background: #f76363;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .message {
+      margin-top: 1rem;
+      font-weight: bold;
+      font-size: 1.25rem;
+      color: #333;
+    }
+
+    audio {
+      display: none;
+    }
+
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      z-index: 10000;
+      text-align: center;
+      display: none;
+    }
+
+    .popup button {
+      background-color: #f76363;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-weight: bold;
+      margin: 0.5rem;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="intro-overlay" id="intro">
+    <div id="intro-text">Welcome Subi Tiwari Aka ...</div>
+  </div>
+
+  <audio autoplay loop muted id="bg-audio">
+    <source src="3.mp4" type="audio/mp4" />
+  </audio>
+
+  <div class="header">
+    <h1>SUBI'S PERSONAL WEBSITE</h1>
+    <p>Valentine's Day</p>
+  </div>
+
+  <div class="container">
+    <nav>
+      <div style="font-weight: 700; color: #f76363;">LoveNest</div>
+      <ul>
+        <li>Home</li>
+        <li>Memories</li>
+        <li>Game</li>
+        <li>Last</li>
+      </ul>
+    </nav>
+
+    <section class="main-content">
+      <p style="font-style: italic; font-size: 1.5rem;">Happy</p>
+      <h2>Valentine’s Day</h2>
+      <p>To The Most Beautiful And Angry Women my cute little alu ka bora jo bhut jaldi naraj hojata h...! thank you so much for coming in my life.... my cutie I love You the most ....!</p>
+      <div class="address">The brain Cells,Y99 Website,Google Chrome</div>
+      <button class="cta-button" onclick="showPopup()">WILL YOU BE MY VALENTINE....?</button>
+    </section>
+
+    <section class="scroller-section">
+      <h2>Memories</h2>
+      <div class="carousel">
+        <img src="1.jpg" class="active" alt="Gallery 1">
+        <img src="2.jpg" alt="Gallery 2">
+        <img src="3.jpg" alt="Gallery 3">
+        <img src="4.jpg" alt="Gallery 4">
+      </div>
+      <div class="carousel-controls">
+        <button onclick="prevSlide()">Back</button>
+        <button onclick="nextSlide()">Next</button>
+      </div>
+    </section>
+
+    <section class="game-section">
+      <h2>Play Tic Tac Toe!</h2>
+      <div class="board" id="board"></div>
+      <div class="message" id="message"></div>
+    </section>
+
+    <div class="footer">
+      14 FEBRUARY 2025
+      <small>Made With 💗 By Suyash Singh</small>
+    </div>
+  </div>
+
+  <div class="popup" id="valentinePopup">
+    <p>Are you sure...?</p>
+    <button onclick="handleAnswer(true)">Yes</button>
+    <button onclick="handleAnswer(false)">No</button>
+  </div>
+
+  <script>
+    // Intro text animation
+    const introTexts = [
+      "Welcome Subi Tiwari Aka ...",
+      "Alu Ka Bora 🥔",
+      "Here we Go",
+      "Personal Website is coming",
+      "3", "2", "1", "0", "-1", "-2",
+      "M Nhi Dikhaunga",
+      "Acha Apni Ankhe Band Karo"
+    ];
+    let introIndex = 0;
+
+    function playIntro() {
+      const intro = document.getElementById('intro');
+      const text = document.getElementById('intro-text');
+      const interval = setInterval(() => {
+        introIndex++;
+        if (introIndex < introTexts.length) {
+          text.textContent = introTexts[introIndex];
+        } else {
+          clearInterval(interval);
+          intro.classList.add('hidden');
+          document.getElementById("bg-audio").muted = false;
+        }
+      }, 1500);
+    }
+
+    window.onload = () => {
+      playIntro();
+      showSlide(currentIndex);
+    };
+
+    // Carousel logic
+    let currentIndex = 0;
+    const slides = document.querySelectorAll('.carousel img');
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+    }
+
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % slides.length;
+      showSlide(currentIndex);
+    }
+
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+      showSlide(currentIndex);
+    }
+
+    setInterval(nextSlide, 4000);
+
+    // Popup logic
+    function showPopup() {
+      document.getElementById('valentinePopup').style.display = 'block';
+    }
+
+    function handleAnswer(answer) {
+      if (answer) {
+        alert('Congratulations!');
+      } else {
+        alert('That is not even an option. Try again!');
+      }
+      document.getElementById('valentinePopup').style.display = 'none';
+    }
+
+    // Tic Tac Toe logic
+    const board = document.getElementById('board');
+    const message = document.getElementById('message');
+    let cells = Array(9).fill(null);
+    let isGameOver = false;
+
+    function renderBoard() {
+      board.innerHTML = '';
+      cells.forEach((cell, i) => {
+        const div = document.createElement('div');
+        div.className = 'cell';
+        div.textContent = cell || '';
+        div.addEventListener('click', () => handleClick(i));
+        board.appendChild(div);
+      });
+    }
+
+    function handleClick(index) {
+      if (cells[index] || isGameOver) return;
+      cells[index] = 'X';
+      renderBoard();
+      if (checkWinner('X')) return;
+      setTimeout(aiMove, 400);
+    }
+
+    function aiMove() {
+      const emptyIndices = cells.map((v, i) => v === null ? i : null).filter(v => v !== null);
+      let bestScore = -Infinity;
+      let move;
+      for (let i of emptyIndices) {
+        cells[i] = 'O';
+        let score = minimax(cells, 0, false);
+        cells[i] = null;
+        if (score > bestScore) {
+          bestScore = score;
+          move = i;
+        }
+      }
+      cells[move] = 'O';
+      renderBoard();
+      checkWinner('O');
+    }
+
+    function minimax(board, depth, isMaximizing) {
+      if (checkStaticWinner(board, 'O')) return 10 - depth;
+      if (checkStaticWinner(board, 'X')) return depth - 10;
+      if (!board.includes(null)) return 0;
+
+      const scores = [];
+      for (let i = 0; i < board.length; i++) {
+        if (board[i] === null) {
+          board[i] = isMaximizing ? 'O' : 'X';
+          const score = minimax(board, depth + 1, !isMaximizing);
+          scores.push(score);
+          board[i] = null;
+        }
+      }
+      return isMaximizing ? Math.max(...scores) : Math.min(...scores);
+    }
+
+    function checkStaticWinner(board, player) {
+      const winPatterns = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],
+        [0, 4, 8], [2, 4, 6]
+      ];
+      return winPatterns.some(pattern => pattern.every(i => board[i] === player));
+    }
+
+    function checkWinner(player) {
+      if (checkStaticWinner(cells, player)) {
+        message.textContent = `${player} wins!`;
+        isGameOver = true;
+        return true;
+      }
+      if (!cells.includes(null)) {
+        message.textContent = "It's a draw!";
+        isGameOver = true;
+        return true;
+      }
+      return false;
+    }
+
+    renderBoard();
+  </script>
+</body>
+</html>
